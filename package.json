@@ -1,0 +1,17 @@
+{
+  "name": "mapd713_project_group13",
+  "version": "1.0.0",
+  "description": "project for mapd713 from group 13, creation of server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rahul Edirisinghe, Kajal Patel",
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^7.6.3",
+    "restify": "^11.1.0",
+    "restify-errors": "^8.0.2",
+    "save": "^2.9.0"
+  }
+}
