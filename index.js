@@ -8,7 +8,7 @@ let HOST = '127.0.0.1'; //chosen server address (for this project)
 //create reference objects for restify and restify-errors
 
 const mongoose = require('mongoose')
-const CONNECTER_STRING = "";
+const CONNECTER_STRING = "mongodb+srv://cente713User_1:4MmB74RofHDl9iY3@map713-712projectdb.jgu68kw.mongodb.net/";
 
 mongoose.connect(CONNECTER_STRING, {useNewUrlParser: true});
 const mongodb_weCare = mongoose.connection;
