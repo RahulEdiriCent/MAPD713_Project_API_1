@@ -104,11 +104,37 @@ server.get('/patients', function(req,res,next){
     })
 })
 
+//----------------------- GET PATIENTS BY CONDITION ---------------------------------
+server.get('/patients/search/condition/:filter', function(req,res,next){
+    console.log("Get -> Patients using Patient Condition" + req.params.filter);
+
+    //function to find patients with a particular condition
+    PatientsModel.find({condition: req.params.filter}).then((filteredPatients)=>{
+        //check if matching Patients was found
+        if(filteredPatients){
+            console.log("Found Patients in " + req.params.filter + " condition")
+            res.send(filteredPatients);
+        }else{
+            //if not then:
+            console.log("Unable to find patients with that condition")
+            res.send(404, "Patients Not Found");
+        }
+    }).catch((filterError)=>{//check for errors
+        //if error occurred, then send a Error message and go to next function
+        console.log('An Error occured while searching for Patient Records: ' + filterError);
+        return next (new Error(JSON.stringify(filterError.errors)))
+    });
+});
+
+//----------------------- GET PATIENT(s) BY NAME ---------------------------------
+
+
+
 //----------------------- GET PATIENT BY ID ---------------------------------
 server.get('/patients/:id', function(req,res,next){
 
-    console.log("GET -> Patient using _id")
-    //function to find patients using _id
+    console.log("GET -> Patient using patientId")
+    //function to find patients using patientid
     PatientsModel.findOne({_id: req.params.id}).then((fetchedPatient)=>{
         //check if a matching Patient was found
         if(fetchedPatient) {
