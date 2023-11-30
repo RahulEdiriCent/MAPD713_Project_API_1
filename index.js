@@ -356,6 +356,7 @@ server.post('/patients/:pid/tests', function(req, res, next){
 function checkIfCritical(testToCheck){
     var conditionAfterCheck = "Normal";
     let readings = testToCheck.readings;
+    console.log(readings)
     switch(testToCheck.category){
         case "Blood Test": //Pressure
             let bpr1 = Number(readings[0][1]);
