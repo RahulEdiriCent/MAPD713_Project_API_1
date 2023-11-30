@@ -156,9 +156,11 @@ server.get('/patients/search/condition/:filter', function(req,res,next){
 server.get('/patients/search/name/:name',function(req,res,next){
     console.log("Get-> Pateints using Name");
 
+    let nameSearch = new RegExp(req.params.name, 'i');
+
     PatientsModel.find({ $or:[
-        {firstName: req.params.name},//if it matches either first or last name
-        {lastName: req.params.name}
+        {firstName: {$regrex: nameSearch}},//if it matches either first or last name
+        {lastName: {$regrex: nameSearch}}
     ]}).then((foundPatientsByName)=>{
         //check if matching Patients was found
         if(foundPatientsByName){
@@ -332,7 +334,7 @@ server.post('/patients/:pid/tests', function(req, res, next){
         //into the tests object list
         let newTest = req.body
         var newCondition = checkIfCritical(newTest);
-
+        newTest.status = newCondition;
 
         PatientsModel.findOneAndUpdate({patientId: req.params.pid}, 
            { $push: {tests: newTest}, $set: {condition: newCondition}}, //use passed over information to update -> push new test data
@@ -371,8 +373,31 @@ function checkIfCritical(testToCheck){
             }
 
             break;
-        case "Respiratory Rate": break;
-        case "Blood Oxygen Level": break;
+
+        case "Respiratory Rate": 
+            let rrr = Number(readings[0][1]);
+        
+            console.log(rrr)
+            if((rrr < 15 || rrr > 20)){
+                console.log("Patient is now Critical")
+                conditionAfterCheck = "Critical";
+            }else{
+                console.log("Patient is still Normal")
+            }
+        break;
+
+        case "Blood Oxygen Level": 
+            let bolr = Number(readings[0][1]);
+
+            console.log(bolr)
+            if((bolr < 90 || bolr > 100)){
+                console.log("Patient is now Critical")
+                conditionAfterCheck = "Critical";
+            }else{
+                console.log("Patient is still Normal")
+            }
+        break;
+
         case "Heart Beat Rate":
             let hbrr1 = Number(readings[0][1]);
             let hbrr2 = readings[1][1];
