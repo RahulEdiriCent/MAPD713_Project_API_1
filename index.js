@@ -159,8 +159,8 @@ server.get('/patients/search/name/:name',function(req,res,next){
     let nameSearch = new RegExp(req.params.name, 'i');
 
     PatientsModel.find({ $or:[
-        {firstName: {$regrex: nameSearch}},//if it matches either first or last name
-        {lastName: {$regrex: nameSearch}}
+        {firstName: {$regex: nameSearch}},//if it matches either first or last name
+        {lastName: {$regex: nameSearch}}
     ]}).then((foundPatientsByName)=>{
         //check if matching Patients was found
         if(foundPatientsByName){
